@@ -2,16 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<!--parent>
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.1</version>
 		<relativePath/>
-	</parent-->
-	<parent>
-		<artifactId>graphql-gateway</artifactId>
-		<groupId>org.formentor</groupId>
-		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>rest-countries-service</artifactId>
@@ -21,6 +16,7 @@
 	<properties>
 		<springfox.version>2.9.2</springfox.version>
 		<lombok.version>1.18.16</lombok.version>
+		<graphql-gateway.version>0.0.1-SNAPSHOT</graphql-gateway.version>
 	</properties>
 
 	<dependencies>
@@ -41,6 +37,11 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.formentor</groupId>
+			<artifactId>graphql-registry-client</artifactId>
+			<version>${graphql-gateway.version}</version>
 		</dependency>
 
 		<dependency>

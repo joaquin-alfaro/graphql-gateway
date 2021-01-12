@@ -1,4 +1,4 @@
-package org.formentor.graphql.gateway;
+package org.formentor.graphql.server;
 
 import graphql.GraphQL;
 import io.swagger.models.Swagger;

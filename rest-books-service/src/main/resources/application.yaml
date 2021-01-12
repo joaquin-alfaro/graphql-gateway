@@ -1,2 +1,6 @@
 server:
   port: 8081
+
+graphql:
+  registry:
+    uri: http://localhost:8080

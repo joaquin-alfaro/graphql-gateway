@@ -48,13 +48,6 @@
 			<artifactId>graphql-schema</artifactId>
 		</dependency>
 
-		<!-- lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- Tests -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

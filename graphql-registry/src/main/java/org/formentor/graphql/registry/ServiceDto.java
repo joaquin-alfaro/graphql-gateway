@@ -1,4 +1,4 @@
-package org.formentor.graphql.gateway;
+package org.formentor.graphql.registry;
 
 import lombok.Data;
 
