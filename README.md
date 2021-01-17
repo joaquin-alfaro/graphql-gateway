@@ -1,21 +1,64 @@
 # graphql-gateway
-API gateway to expose rest services using GraphQL specification.
+Gateway to expose rest services using GraphQL.
 
 ## Overview
-Image of architecture
+![architecture](_dev/architecture.png)
 
-Modules
+## Modules
 ### graphql-server
+Exposes the endpoint **POST /graphql** for query requests
 
-### graphql-schema
+```graphql
+query {
+  countriesById(id: "DE") {
+    name
+    cities{
+      name
+    }
+  }
+}
+```
 
 ### graphql-registry
+Exposes the following endpoints to manage registration of services:  
+
+**POST /registry** to register services in the gateway
+```shell
+curl --location --request POST 'http://localhost:8080/registry' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"name": "rest-countries-service",
+"url": "http://localhost:8082/v2/api-docs"
+}'
+```
+**DELETE /registry** to unregister services from the gateway
+```shell
+curl --location --request DELETE 'http://localhost:8080/registry?service=rest-countries-service' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"name": "booksApi",
+"url": "http://localhost:8081/v2/api-docs"
+}'
+```
+**GET /registry** to list registered services in the gateway
+```shell
+curl --location --request GET 'http://localhost:8080/registry'
+```
 
 ### graphql-registry-client
+Includes the annotation **@GraphQLRegistryService** to register services during starting
+
+### graphql-schema
+Includes the code to map swagger with graphql
+
+### graphql-gateway-server
+springboot service that includes **graphql-server** and **grapqhl-registry**
 
 ## How it works
-State diagram
-
+### Service registry
+![service registry](_dev/state-diagram-register.png)
+### Graphql queries
+![graphql queries](_dev/state-diagram-query.png)
 ## Setup
 Configuration of springboot service to register in graphql-gateway
 
@@ -44,27 +87,76 @@ graphql:
   registry:
     uri: http://localhost:8080
 ```
-## Usage
+## Usage and example
 1. Install
 ```shell
 mvn clean package
 ```
-1. Start *graphql-gateway*
+2. Start *graphql-gateway*
 ```shell
 java -jar graphql-gateway-server/target/graphql-gateway.jar
 ```
-2. Start *rest-books-service*
+### Example
+The project includes the samples *rest-books-service* and *rest-countries-service* to test the gateway   
+#### Start *rest-books-service*
 ```shell
 java -jar rest-books-service/target/*.jar
 ```
-3. Start *rest_countries_service*
+> The service *rest-books-service* will register the fields **books** and **booksById** in query type
+
+```graphql
+query {
+    books {
+        name
+        id
+        author {
+            lastName
+            firstName
+        }
+    }
+}
+```
+
+```graphql
+query {
+  booksById(id: "one") {
+    id
+    name
+    author {
+      lastName
+    }
+  }
+}
+```
+
+#### Start *rest_countries_service*
 ```shell
 java -jar rest-countries-service/target/*.jar
 ```
-4. Execute GraphQL queries using GraphQL Playground
+> The service *rest-countries-service* will register the fields **countries** and **countriesById** in query type
+```graphql
+query {
+    countries {
+        iso
+        name
+        cities {
+            name
+            id
+        }
+    }
+}
+```
 
-## Caveats
-- It should be a cluster to support high availability
-- It can be deployed in kubernetes?
-- Replace the module *graphql-registry* with an existing *api gateway* or *service mesh* 
-- Allow the registration of GraphQL APIs
+```graphql
+query {
+    countriesById(id: "DE") {
+        name
+        cities{
+            name
+        }
+    }
+}
+```
+
+#### Launch GraphQL queries using [GraphQL Playground](https://github.com/graphql/graphql-playground)
+![graphql playground](_dev/graphql-playground.png)
