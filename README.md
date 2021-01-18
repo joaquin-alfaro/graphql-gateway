@@ -19,6 +19,18 @@ query {
 }
 ```
 
+```graphql
+type CityDto {
+  id: ID
+  name: String
+}
+
+type CountryDto {
+  cities: [CityDto]
+  iso: String
+  name: String
+}
+```
 ### graphql-registry
 Exposes the following endpoints to manage registration of services:  
 
